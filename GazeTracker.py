@@ -1,14 +1,10 @@
-"""
-Demonstration of the GazeTracking library.
-Check the README.md for complete documentation.
-"""
-
 import cv2
 from gaze_tracking import GazeTracking
+import pyautogui
 
 gaze = GazeTracking()
 webcam = cv2.VideoCapture(0)
-
+x, y = 500, 500
 while True:
     # We get a new frame from the webcam
     _, frame = webcam.read()
@@ -34,6 +30,13 @@ while True:
     right_pupil = gaze.pupil_right_coords()
     cv2.putText(frame, "Left pupil:  " + str(left_pupil), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
     cv2.putText(frame, "Right pupil: " + str(right_pupil), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
+    # mouse
+    try:
+        x = 1980 - gaze.horizontal_ratio() * 1920
+        y = gaze.vertical_ratio() * 1080
+    except:
+        pass
+    pyautogui.moveTo(x, y)
 
     cv2.imshow("Demo", frame)
 
