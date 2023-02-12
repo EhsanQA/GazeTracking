@@ -32,7 +32,7 @@ while True:
     cv2.putText(frame, "Right pupil: " + str(right_pupil), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
     # mouse
     try:
-        x = 1980 - gaze.horizontal_ratio() * 1920
+        x = 1920 - gaze.horizontal_ratio() * 1920
         y = gaze.vertical_ratio() * 1080
     except:
         pass
