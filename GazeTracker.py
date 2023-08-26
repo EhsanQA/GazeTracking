@@ -1,12 +1,17 @@
 import cv2
 from gaze_tracking import GazeTracking
 import pyautogui
+pyautogui.FAILSAFE = False
 
 gaze = GazeTracking()
 webcam = cv2.VideoCapture(0)
 x, y = 500, 500
+# arrX = []
+# arrY = []
 while True:
     # We get a new frame from the webcam
+    
+
     _, frame = webcam.read()
 
     # We send this frame to GazeTracking to analyze it
@@ -34,6 +39,14 @@ while True:
     try:
         x = 1920 - gaze.horizontal_ratio() * 1920
         y = gaze.vertical_ratio() * 1080
+        if x > 990:
+            x *= 1.48 * 1.1
+        elif x < 300:
+            x /= 258
+        if y < 540:
+            y /= 430
+        arrX.append(x)
+        arrY.append(y)
     except:
         pass
     pyautogui.moveTo(x, y)
@@ -42,6 +55,9 @@ while True:
 
     if cv2.waitKey(1) == 27:
         break
-   
+    # print("maxes:\t", max(arrX), max(arrY))
+    # print("mins:\t", min(arrX), min(arrY))
+
+
 webcam.release()
 cv2.destroyAllWindows()
